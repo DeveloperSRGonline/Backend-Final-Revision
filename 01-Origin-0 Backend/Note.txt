@@ -1,0 +1,4 @@
+npm i Packagename : ye kya karta hai npm ke website se hamare folder mein leke aata hai.
+package.json : maintain what packages are you are using and installed.
+package : aisa code jo humne nahi likha.
+package-lock.json : ye file se hume kuch lena dena nahi hai.
