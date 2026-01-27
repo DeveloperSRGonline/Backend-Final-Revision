@@ -1,0 +1,12 @@
+server - a machine jise program kiya jata hai ki vo use ke request pe proper response de(this is backend)
+
+http - module (no need to install)
+express - package (need to download)
+
+nodejs application 
+- jab start karte hai 
+- "npm init -y"
+- npm i express
+
+
+code node_modules folder ke andar aata hai
