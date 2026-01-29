@@ -1,0 +1,7 @@
+API - do application ko kaise bhi tarike se communicate karva lo use hum api bol sakte hai
+Rest API - lekin rest api bolti hai ki tum guide line follow karo
+4 methods hai inka use karlo
+GET - to get data from the server
+POST - to send new data to the server (creating new resources)
+PATCH - to update data on the server
+DELETE - to remove data from the server
