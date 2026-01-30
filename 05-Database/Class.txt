@@ -1,0 +1,13 @@
+// variables apni value ram mein store karte hai 
+// server band ram clear - data loss
+// Pahele hum notes ko notes array mein save kar rahe the ab is ismein ek problem hai ki jaise hi server reload kiye toh hamara array blank ho jata hai - is problem ko solve karne ke liye hum database ka use karnege.
+// database read , write speed bhi badiya deta hai.
+// hum mongodb database use karenge.
+
+// POST /notes => {title,content}
+// GET /notes => get all notes
+// DELETE /notes/:id => delete a note
+// PATCH /notes/:id => update a note
+
+
+// src folder ke andar main logic jata hai
