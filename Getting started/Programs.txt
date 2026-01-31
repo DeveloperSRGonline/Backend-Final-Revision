@@ -1,0 +1,58 @@
+# Checking that the user is eligible for vote or not
+
+age = int(input("Enter your age : "))
+
+if age >= 18 :
+    print("You can vote")
+else :
+    print('You cannot vote')
+
+
+# Check weather the number is even or odd
+
+num = int(input('Enter the number : '))
+
+if num % 2 == 0 :
+    print(f'{num} is even.')
+else :
+    print(f'{num} is odd.')
+
+
+# greatest of three numbers
+
+num1 = int(input("Enter first number : "))
+num2 = int(input("Enter second number : "))
+num3 = int(input("Enter third number : "))
+
+if num1 > num2 and num1 > num3 :
+    print(f'{num1} is greatest.')
+elif num1 > num1 and num2 > num3  : 
+    print(f'{num2} is greatest.')
+else : 
+    print(f'{num3} is greatest.')
+
+
+
+
+# greatest of three numbers
+
+print('⚠️ first number has to  greater then second')
+print('Enter first number then operator and second number')
+num1 = int(input("Enter number one : "))
+op = input("Enter operator : ")
+num2 = int(input("Enter number two : "))
+
+if op == "+":
+    a = num1 + num2
+    print(f"Answer for Addition of {num1} and {num2} is : ", a)
+elif op == "-":
+    s = num1 - num2
+    print(f"Answer for Substraction of {num1} and {num2} is : ", s)
+elif op == "*"  : 
+    m = num1 * num2
+    print(f'Answer for Multiplication of {num1} and {num2} is : ',m)
+elif op == "/"  : 
+    d = num1 / num2
+    print(f'Answer for Division of {num1} and {num2} is : ',d)
+else:
+    print("This functionality not available")

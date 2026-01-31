@@ -1,0 +1,11 @@
+#sum of two variables by taking user input
+
+a = int(input("Enter value of a : "))
+b = int(input("Enter value of b : "))
+
+print("User entered value of a is : ",a)
+print("User entered value of b is : ",b)
+c = a+b
+# c = int(a)+int(b) - alternate way
+print(f'Sum of {a} and {b} is : ',c)
+

@@ -1,0 +1,28 @@
+#getting started with python
+print("Hello World")
+
+#variables
+a = 10
+b = 20
+name = 'shivam'
+
+#printing variables
+print(a)
+print(b)
+print(name)
+
+#printing string
+print('Sum is :',(a+b))
+
+print('This is concatination example',a+b) #using ,
+
+#saving addition in c
+c = a + b
+
+# converting c to string to concatinate(using +)
+print('addition :' + str(c))
+
+#type of variables
+print(type(a)) #int
+print(type(b)) #int
+print(type(name)) #str
