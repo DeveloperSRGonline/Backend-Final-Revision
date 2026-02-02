@@ -2,3 +2,16 @@ Task - 01
     server start
 Task - 02
     server and database connection
+
+
+schema - database ko batana ki ki hum kis tarike ka data store karne wale hai
+note => {title and content}
+
+- collection similar type of data ka group
+const Note = mongoose.model('Notes',noteSchema)
+                              |
+                            collection name
+
+-src 
+    - Models
+        --note.model.js
