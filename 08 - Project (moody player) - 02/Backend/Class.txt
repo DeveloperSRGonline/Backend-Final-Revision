@@ -1,0 +1,12 @@
+jiske bhi pass database ki connecting scring agary directly likh kar github per push kar denge toh koi bhi access kar lega database ko - isko secret rakhna padta hai
+local - locally use kar sakte hai storage ka problem hai tab
+cloud - only 512 mb storage hi available in free tier
+
+step 1 : in server.js file
+require('dotenv').config()
+
+step 2 : in db.js file
+process.env.MONGO_URI - isse kya hota hai ki hum .env ke variable ko acces kar pate hai
+
+database - small amount ke data 
+cloudstorage - large data ke liye
