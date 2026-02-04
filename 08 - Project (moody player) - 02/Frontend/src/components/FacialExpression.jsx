@@ -1,7 +1,7 @@
 import { useEffect, useRef,useState } from "react";
 import * as faceapi from "face-api.js";
 import "./FacialExpression.css"
-import MoodSongs from "./Songs";
+import MoodSongs from "./MoodSongs";
 
 export default function FacialExpression() {
   const videoRef = useRef();
