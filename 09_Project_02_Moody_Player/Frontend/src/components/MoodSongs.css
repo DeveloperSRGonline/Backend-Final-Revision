@@ -1,0 +1,54 @@
+.mood-songs {
+  h2 {
+    background-image: url("./heading.jpg");
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-position:center;
+    font-size: 2rem;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #ffffff80;
+  padding: 3rem;
+  border-radius: 1rem;
+  width: 100%;
+  /* box-shadow: inset 0 0 30px #ffffff80; */
+}
+.song-card {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(245, 245, 245, 0.384);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease-in-out;
+}
+.song-card:hover{
+    box-shadow: inset 0 0 0px #b8ffbd80;
+    border: 1px solid darkseagreen;
+    cursor: pointer;
+    scale: 1.02;
+}
+.title {
+  h3 {
+    font-size: 1.5rem;
+  }
+  p {
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: gray;
+  }
+}
+.play-pause-button {
+  .ri-pause-line {
+    font-size: 1.5rem;
+  }
+  .ri-play-line {
+    font-size: 1.5em;
+  }
+}

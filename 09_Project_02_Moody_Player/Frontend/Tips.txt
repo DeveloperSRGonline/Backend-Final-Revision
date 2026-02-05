@@ -1,0 +1,11 @@
+agar mujhe kuchh nahi pata hai toh bhi mai uskka kaam kar saku - ye mindset important hai
+yahi confidence mujhe mere andar le kar aana hai 
+jo bhi mujhe create karna hai vo mere control mein hai - bas mindset vaisa leke chalna hai ki vo create ho jayega
+
+- ye na mereko idea nahi toh ye rahene deta hu - ye mat kiya kar - developers aisa nahi karte - developers ko kuchh chije create karni hai - toh vo research karne baith jate hai - ai ki madat se ye kaam ab aur bhi aasan ho gaya hai - toh ab 10 ghante baith kar nahi lagane hai - ai ki help lekar bhi kar sakte hai
+
+models - ye hot ai models bohat saare data pe trin  kiya jata hai  yane use is sinerio mein kuch chije puchi jayegi toh ye chije karne
+
+navigator se hum device ke hardware ko access kar rahe hote hai
+
+jab tum khud se project bana rahe ho use mein abstraction hona chaiye - matlab kya kar raha hai uspe focus kaise kar raha hai uspe nahi - ha agar vo performance kha raha hai toh
