@@ -1,0 +1,28 @@
+jiske bhi pass database ki connecting scring agary directly likh kar github per push kar denge toh koi bhi access kar lega database ko - isko secret rakhna padta hai
+local - locally use kar sakte hai storage ka problem hai tab
+cloud - only 512 mb storage hi available in free tier
+
+step 1 : in server.js file
+require('dotenv').config()
+
+step 2 : in db.js file
+process.env.MONGO_URI - isse kya hota hai ki hum .env ke variable ko acces kar pate hai
+
+database - small amount ke data 
+cloudstorage - large data ke liye
+
+productioni mein jo machine mein configuration kar sakte hai  like cpu , ram , memory 
+- udhar ssd nahi hoti hai (secondary memory)
+- hamein song save karna hai toh hum use karenge cloud storage provider(imagekit) ye kya karta hai media provide karne par uski working link provide karta hai 
+
+production ke code mein routes app.js mein nahi rakhte uske liye alag folder banate hai
+
+postman mein file raw format main nahi jati - uske liye hum "form-data" use karenge
+
+---------------
+express.json() - raw formate
+jab form-data ke form mein then - multer
+
+req.file - mein data buffer mein aata hai
+console.log(req.body) - data
+console.log(req.file) - file
