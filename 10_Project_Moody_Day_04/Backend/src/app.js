@@ -1,8 +1,10 @@
 const express = require('express')
 const songRoutes = require('./routes/song.routes')
+const cors = require('cors')
 
 
 const app = express() // server ka instance
+app.use(cors())
 app.use(express.json()) // to read req.body data
 
 // using router
