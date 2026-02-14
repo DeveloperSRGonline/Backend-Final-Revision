@@ -1,0 +1,25 @@
+Project Flow
+- npm init -y 
+- packages install : npm i express , mongoose
+- api deside karna kya kya aapi banana hai
+- first server create in src/app.js and export to use in server.js
+- connect with database by creating connection logic src/db/db.js and use it in app.js
+- dotenv configuration using dotenv package for protecting credentials and create .env file also *env configuration must be in server.js file
+- in .env file paste credeitials safely and in .gitignore file dont forget to use write node_modules and .env
+- ab npx nodemon server.js karke check connection of server and database check kar lena 
+- ab hamein jo routes decide kiye the unko create karna hai but user database mein user create karne se pahele uska model create karna padta hai
+- toh ab model kaha create karte hai src/model/user.model.js file mein 
+- ab routes kaha create karte hai src/routes/auth.route.js file mein 
+
+app.use('/auth',authRoutes) 
+because of above line now our api will be like this
+// ab yaha par api kya ban jayegi 
+// POST /auth/register
+// POST /auth/login
+// GET /auth/user
+// GET /auth/logout
+
+- req.body mein data directly nahi access hota uske liye middleware use karte hai - app.use(express.json())
+    const {username,password}  = req.body
+- ab  jo hamein username and password mila hai uska use karke user create karna padega 
+- user create karne ke liye userModel user karna padega
