@@ -1,0 +1,4 @@
+Validation - data ke formate ko check karna
+Verification - data sahi hai ya nahi
+Authentication - pata karna req kis user ki hai 
+authorization - ek user kya kya kar sakta hai
