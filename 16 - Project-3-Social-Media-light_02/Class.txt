@@ -1,0 +1,9 @@
+router.post("/register", async(req,res)=>{});
+                               | 
+                               - ye controller ka function
+router.post("/login", async(req,res)=>{});
+                               | 
+                               - ye controller ka function
+
+routes.js - is file mein sirf route define kiya jata hai
+controllers.js - is file mein logic likha jata hai
