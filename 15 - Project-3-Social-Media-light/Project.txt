@@ -1,0 +1,9 @@
+Main features:
+  - Authentication
+    - register
+    - login
+    - profile
+
+  - Post 
+    - image (we upload)
+    - caption (ai generated)
