@@ -1,19 +1,15 @@
-// Please install OpenAI SDK first: `npm install openai`
+const { GoogleGenAI } = require("@google/genai");
+require("dotenv").config();
 
-const OpenAI = require("openai");
-
-const openai = new OpenAI({
-        baseURL: 'https://api.deepseek.com',
-        apiKey: process.env.DEEPSEEK_API_KEY,
-});
+// The client gets the API key from the environment variable `GEMINI_API_KEY`.
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 async function main() {
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: "You are a helpful assistant." }],
-    model: "deepseek-chat",
+  const response = await ai.models.generateContent({
+    model: "gemini-3-flash-preview",
+    contents: "What is India's most powerful quality? Answer in one sentence.",
   });
-
-  console.log(completion.choices[0].message.content);
+  console.log(response.text);
 }
 
 main();
