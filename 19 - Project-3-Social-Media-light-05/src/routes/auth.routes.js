@@ -1,9 +1,10 @@
 const express = require('express');
 const { registerController, loginController } = require('../controllers/auth.controller');
+const multer = require('multer');
 
 const router = express.Router();
 
-router.post('/register',registerController);
+router.post('/register',multer().single('avatar'),registerController);
 router.post('/login',loginController);
 
 

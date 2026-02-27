@@ -9,7 +9,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    bio:String,
+    avatar:String,
+    fullName:String,
+    website:String,
+    location:String,
 });
 
 const userModel = mongoose.model('User', userSchema);
