@@ -1,0 +1,9 @@
+Types of events: 
+1. Inbuilt events
+    - connection
+    - disconnect
+2. Custom events
+
+
+on - for listening to events
+emit - for firing events
