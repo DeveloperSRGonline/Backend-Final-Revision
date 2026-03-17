@@ -1,0 +1,1 @@
+problem : without login or register anyone can use socket connection
