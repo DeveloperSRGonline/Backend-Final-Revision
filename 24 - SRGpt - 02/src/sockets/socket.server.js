@@ -28,7 +28,6 @@ function initSocketServer(httpServer) {
 
   io.on("connection", async (socket) => {
     socket.on("ai-message", async (messagePayload) => {
-      console.log("User message:", messagePayload.content);
 
       // message save of user
       await messageModel.create({
@@ -38,9 +37,9 @@ function initSocketServer(httpServer) {
         role: "user",
       });
 
-      const chatHistory = await messageModel.find({
+      const chatHistory = (await messageModel.find({
         chat: messagePayload.chat,
-      });
+      }).sort({createdAt:-1}).limit(20).lean()).reverse();
 
       const response = await GenerateGroqResponse(
         chatHistory.map((msg) => ({
