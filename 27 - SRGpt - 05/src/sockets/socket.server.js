@@ -3,130 +3,142 @@ const cookie = require("cookie");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/user.model");
 const messageModel = require("../models/message.model");
-const {
-  GenerateGroqResponse,
-  GenerateVector,
-  GenerateAIResponse,
-} = require("../services/ai.service");
+const { GenerateVector, GenerateAIResponse } = require("../services/ai.service");
 const { createMemory, queryMemory } = require("../services/vector.service");
 
 function initSocketServer(httpServer) {
   const io = new Server(httpServer, {});
 
-  // middleware
+  // ── Auth Middleware ───────────────────────────────────────────────────────
   io.use(async (socket, next) => {
     const cookies = cookie.parse(socket.handshake.headers?.cookie || "");
 
-    // if token is not available in cookies
     if (!cookies.token) {
-      next(new Error("Authentication error : No token provided"));
+      return next(new Error("Authentication error: No token provided"));
     }
 
     try {
       const decoded = jwt.verify(cookies.token, process.env.JWT_SECRET);
-      const user = await userModel.findById(decoded.id);
-      socket.user = user;
+      socket.user = await userModel.findById(decoded.id);
       next();
-    } catch (error) {
-      next(new Error("Authentication error : No token provided"));
+    } catch {
+      next(new Error("Authentication error: Invalid token"));
     }
   });
 
-  io.on("connection", async (socket) => {
+  io.on("connection", (socket) => {
     socket.on("ai-message", async (messagePayload) => {
       const { chatId, content, ai } = messagePayload;
-      
-      // save user message
-      const message = await messageModel.create({
-        chat: chatId,
-        user: socket.user._id,
-        content: content,
-        role: "user",
-      });
 
-      // generate user message vector
-      const vectors = await GenerateVector(content);
-
-      // save user message vector
-      await createMemory({
-        vectors,
-        metadata: {
+      // ── Phase 1: Independent ops run together ─────────────────────────────
+      // saveUserMsg, generateVector, getChatHistory — no deps on each other
+      const [message, vectors, chatHistory] = await Promise.all([
+        messageModel.create({
           chat: chatId,
-          user: socket.user._id.toString(),
-          text: content,
-        },
-        messageId: message._id,
-      });
-
-      // query memory
-      const memory = await queryMemory({
-        queryVector: vectors,
-        limit: 3,
-        metadata: {
-          chat: chatId,
-          user: socket.user._id.toString(),
-        },
-      });
-
-      // short term memory
-      const chatHistory = (
-        await messageModel
+          user: socket.user._id,
+          content,
+          role: "user",
+        }),
+        GenerateVector(content),
+        messageModel
           .find({ chat: chatId })
           .sort({ createdAt: -1 })
           .limit(20)
           .lean()
-      ).reverse();
+          .then((msgs) => msgs.reverse()),
+      ]);
 
+      // ── Phase 2: Both need vector from Phase 1 ────────────────────────────
+      // createMemory also needs messageId — both ready from Phase 1
+      const [, memory] = await Promise.all([
+        createMemory({
+          vectors,
+          metadata: {
+            chat: chatId,
+            user: socket.user._id.toString(),
+            text: content,
+          },
+          messageId: message._id,
+        }),
+        queryMemory({
+          queryVector: vectors,
+          limit: 10,
+          metadata: {
+            user: socket.user._id.toString(),
+          },
+        }),
+      ]);
+
+      // ── Build context for AI ──────────────────────────────────────────────
+
+      // short-term memory — recent chat history
       const stm = chatHistory.map((msg) => ({
         role: msg.role,
         content: String(msg.content),
       }));
 
-      // long term memory
-      const ltm = [
-        {
-          role: "system",
-          content: `These are relevant messages from earlier in this conversation. Use them as context:\n${memory
-            .map((item) => item.metadata.text)
-            .join("\n")}`,
-        },
-      ];
+      // long-term memory — injected as prior conversation context, not as instructions
+      const ltm =
+        memory.length > 0
+          ? [
+              {
+                role: "user",
+                content: `[Earlier conversation context — use as background only, do not reference directly]\n${memory
+                  .map((item) => item.metadata.text)
+                  .join("\n")}`,
+              },
+              {
+                role: "assistant",
+                content: "Understood, I have the context.",
+              },
+            ]
+          : [];
 
-      // generate ai response
-      const response = await GenerateAIResponse([...ltm, ...stm], ai);
+      // ── Phase 3: Generate AI response ─────────────────────────────────────
+      const aiResponse = await GenerateAIResponse([...ltm, ...stm], ai);
 
-      // if response not available
-      if (!response) {
+      if (!aiResponse) {
         return socket.emit("error", "AI returned empty response");
       }
 
-      // save ai message
-      const respnoseMessage = await messageModel.create({
-        chat: chatId,
-        user: socket.user._id,
-        content: response,
-        role: "assistant",
-      });
+      console.log(aiResponse);
 
-      // ai message vector
-      const responseVectors = await GenerateVector(response);
-
-      // save ai message vector
-      await createMemory({
-        vectors: responseVectors,
-        metadata: {
-          chat: chatId,
-          user: socket.user._id,
-          text: response,
-        },
-        messageId: respnoseMessage._id,
-      });
-
-      // emit ai response
+      // ── Emit immediately — user gets response right now ───────────────────
       socket.emit("ai-response", {
-        content: response,
+        content: aiResponse,
         chat: chatId,
       });
+
+      // ── Background: Persist AI response (fire & forget) ───────────────────
+      // Runs after emit — user is not blocked by these saves
+      (async () => {
+        try {
+          // save AI message in DB + generate its vector — both independent
+          const [aiResponseMessage, aiResponseVectors] = await Promise.all([
+            messageModel.create({
+              chat: chatId,
+              user: socket.user._id,
+              content: aiResponse,
+              role: "assistant",
+            }),
+            GenerateVector(aiResponse),
+          ]);
+
+          // save AI message vector in Pinecone — needs both messageId + vector
+          await createMemory({
+            vectors: aiResponseVectors,
+            metadata: {
+              chat: chatId,
+              user: socket.user._id.toString(),
+              text: aiResponse,
+            },
+            messageId: aiResponseMessage._id,
+          });
+        } catch (error) {
+          // user already has their response — just log, don't disturb them
+          console.error("[Background] Failed to persist AI response:", error);
+        }
+      })();
     });
   });
 }
