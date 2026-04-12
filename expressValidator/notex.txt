@@ -1,0 +1,8 @@
+username => test123
+email => 1234234234 -> this is wrong
+password => Test123!
+
+
+thats why we need express validator
+
+means to validate data comming from frontend before saving it in databases
