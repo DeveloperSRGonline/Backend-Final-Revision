@@ -67,6 +67,14 @@ export default defineConfig({
         start_url: ".",
         display: "standalone"
       },
+      workbox:{
+        runtimeCaching:[
+          {
+            urlPattern:"*",
+            handler:"CacheFirst"
+          }
+        ]
+      },
       registerType:'autoUpdate',
     }),
   ],
