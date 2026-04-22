@@ -1,0 +1,20 @@
+FROM node:18
+#linux os + nodejs
+
+WORKDIR /app
+# set working directory
+
+COPY package*.json ./
+# copy package.json and package-lock.json
+
+RUN npm install
+# install dependencies
+
+COPY server.js ./
+# copy server.js
+
+EXPOSE 3000
+# expose port 3000
+
+CMD ["node", "server.js"]
+# run server.js
