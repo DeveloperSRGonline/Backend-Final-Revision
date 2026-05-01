@@ -1,11 +1,9 @@
-// autocanon 
-
 const autocannon = require('autocannon');
 
 const apis = [
     'http://localhost:3000',
-    'http://localhost:3000/about',
-    'http://localhost:3000/contact'
+    'http://localhost:3001/about',
+    'http://localhost:3002/contact'
 ];
 
 function runTest(url){
